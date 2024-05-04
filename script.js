@@ -9,11 +9,21 @@ function clearPage() {
 
 function handleKeyUp(event) {
   const state = getState();
-  if (event.keyCode === 39 || event.keyCode === 32) {
+  if (event.keyCode === 39 || event.keyCode === 32) { // right or space
     return incrementSlide(getState() || initialState);
   }
 
-  if (event.keyCode === 37) {
+  if (event.keyCode === 37) { // left
+    return decrementSlide(getState() || initialState);
+  }
+}
+
+function handleMouseWheel(event) {
+  // const state = getState();
+  if (event.deltaY > 0) { // down
+    return incrementSlide(getState() || initialState);
+  }
+  else if (event.deltaY < 0) { // up
     return decrementSlide(getState() || initialState);
   }
 }
@@ -167,6 +177,7 @@ function render(state) {
 }
 
 app.addEventListener("keyup", handleKeyUp);
+app.addEventListener("wheel", handleMouseWheel);
 
 // STATE MANIPULATION //
 
