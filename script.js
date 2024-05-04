@@ -10,21 +10,33 @@ function clearPage() {
 function handleKeyUp(event) {
   const state = getState();
   if (event.keyCode === 39 || event.keyCode === 32) { // right or space
-    return incrementSlide(getState() || initialState);
+    if (state.slide+1===27) {
+      // end of presentation, do nothing.
+    }
+    else return incrementSlide(getState() || initialState);
   }
 
   if (event.keyCode === 37) { // left
-    return decrementSlide(getState() || initialState);
+    if (state.slide+1===1) {
+      // start of presentation, do nothing.      
+    }
+    else return decrementSlide(getState() || initialState);
   }
 }
 
 function handleMouseWheel(event) {
-  // const state = getState();
-  if (event.deltaY > 0) { // down
-    return incrementSlide(getState() || initialState);
+  const state = getState();
+  if (event.deltaY > 0) { // down = forward
+    if (state.slide+1===27) {
+      // end of presentation, do nothing.
+    }
+    else return incrementSlide(getState() || initialState);
   }
-  else if (event.deltaY < 0) { // up
-    return decrementSlide(getState() || initialState);
+  else if (event.deltaY < 0) { // up = backward
+    if (state.slide+1===1) {
+      // start of presentation, do nothing.      
+    }
+    else return decrementSlide(getState() || initialState);
   }
 }
 
@@ -170,6 +182,7 @@ function addProgress(state) {
 }
 
 function render(state) {
+  console.log(state.slide+1)
   clearPage();
   buildLayout(slides[state.slide].layout);
   addContent(slides[state.slide].type, slides[state.slide].content);
